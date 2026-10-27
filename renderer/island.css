@@ -1,0 +1,2091 @@
+/* ────────────────────────────────────────────────────────────────
+   CodeWithSiril Dynamic Island for Windows
+   Authentic Phone-Sized Capsule • iPhone / OriginOS Design Language
+──────────────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+*:focus,
+*:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  background: transparent !important;
+  overflow: hidden;
+  -webkit-app-region: no-drag;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Inter', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 0;
+  margin: 0;
+}
+
+/* ─── Easing Tokens ─────────────────────────────────────────── */
+:root {
+  --apple-spring: cubic-bezier(0.32, 0.72, 0, 1);
+  --apple-duration: 0.45s;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --media-accent: #ff2d55;
+  --media-accent-glow: rgba(255, 45, 85, 0.45);
+}
+
+/* ─── Island Shell ──────────────────────────────────────────── */
+.island {
+  position: relative;
+  top: 0;
+  margin: 0 auto;
+  background: var(--island-bg, rgba(10, 10, 14, 0.88));
+  border-radius: 15px;
+  overflow: hidden;
+  cursor: pointer;
+  outline: none !important;
+  -webkit-tap-highlight-color: transparent;
+  will-change: width, height, border-radius, opacity, transform;
+  isolation: isolate;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border: 0.5px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 
+    0 14px 28px -6px rgba(0, 0, 0, 0.45),
+    0 4px 10px -2px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.island::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* ─── States: Visibility ───────────────────────────────────── */
+.state {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.state.active {
+  display: flex;
+  pointer-events: auto;
+}
+
+/* ─── 1. PHONE-SIZED COMPACT CAPSULE (VIVO ORIGINOS 120px x 30px) ── */
+.island.compact {
+  width: 120px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.compact-state {
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 11px;
+  width: 100%;
+  height: 100%;
+}
+
+/* Compact Left: Cute animated face (eyes + smile) or mini art */
+.compact-left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+/* Cute Blinking Eyes + Smile Face (Vivo OriginOS / Nusa style) */
+.compact-face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 18px;
+  height: 14px;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.island:hover .compact-face {
+  transform: scale(1.1);
+}
+
+.face-eyes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.face-eye {
+  width: 5.5px;
+  height: 5.5px;
+  background: #ffffff;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  animation: face-blink 4s infinite;
+  box-shadow: 0 0 3px rgba(255, 255, 255, 0.7);
+}
+
+.face-eye .pupil {
+  width: 2.8px;
+  height: 2.8px;
+  background: #000000;
+  border-radius: 50%;
+  position: absolute;
+  top: 1.35px;
+  left: 1.35px;
+  animation: face-look 4s infinite;
+}
+
+/* Cute vector curved smiling mouth (clean, non-breaking SVG) */
+.face-smile-svg {
+  width: 13px;
+  height: 5px;
+  display: block;
+  animation: smile-pulse 4s ease-in-out infinite;
+  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.25));
+  transition: filter 0.2s ease;
+}
+
+.face-smile-svg path {
+  stroke: #ffffff;
+  transition: stroke 0.2s ease;
+}
+
+.island:hover .face-smile-svg path {
+  stroke: #38bdf8;
+}
+
+.island:hover .face-smile-svg {
+  filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.5));
+}
+
+@keyframes face-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  94% { transform: scaleY(0.08); }
+  96% { transform: scaleY(1); }
+  98% { transform: scaleY(0.08); }
+}
+
+@keyframes face-look {
+  0%, 100% { transform: translate(0, 0); }
+  20%, 35% { transform: translate(0.6px, -0.4px); }
+  50%, 65% { transform: translate(-0.6px, 0.2px); }
+  75%, 90% { transform: translate(0.4px, 0.4px); }
+}
+
+@keyframes smile-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08, 0.94); }
+  94%, 98% { transform: scale(1.15, 1.05); }
+}
+
+.compact-music-art {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #141418;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.compact-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.compact-music-art svg {
+  width: 11px;
+  height: 11px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.compact-timer-icon {
+  width: 13px;
+  height: 13px;
+  color: #ff9f0a;
+  display: none;
+}
+
+.compact-timer-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Compact Right: Waveform or Time */
+.compact-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-shrink: 0;
+  height: 100%;
+}
+
+.compact-time {
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  letter-spacing: 0.2px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+/* Compact Media Pill (Vivo OriginOS 164px x 30px) */
+.island.compactMedia {
+  width: 164px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.island.compactMedia .compact-camera-dot { display: none; }
+.island.compactMedia .compact-music-art { display: flex; }
+.island.compactMedia .compact-wave { display: flex; }
+.island.compactMedia .compact-time { display: none; }
+
+/* Compact Timer Pill (Vivo OriginOS 140px x 30px) */
+.island.compactTimer {
+  width: 140px;
+  height: 30px;
+  border-radius: 15px;
+}
+
+.island.compactTimer .compact-camera-dot { display: none; }
+.island.compactTimer .compact-music-art { display: none; }
+.island.compactTimer .compact-timer-icon { display: block; }
+.island.compactTimer .compact-wave { display: none; }
+.island.compactTimer .compact-time { display: block; color: #ff9f0a; font-weight: 700; }
+
+/* 5 Dynamic Equalizer Dancing Wave Bars */
+.compact-wave {
+  display: none;
+  align-items: flex-end;
+  gap: 2.2px;
+  height: 15px;
+  padding-bottom: 2px;
+}
+
+.c-bar {
+  width: 2.4px;
+  height: 14px;
+  border-radius: 999px;
+  background: var(--media-accent, #ff2d55);
+  box-shadow: 0 0 5px var(--media-accent-glow, rgba(255, 45, 85, 0.4));
+  transform-origin: bottom;
+  transform: scaleY(0.25);
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+  will-change: transform;
+}
+
+.island.playing .c-bar:nth-child(1) { animation: c-wave-1 0.75s ease-in-out infinite alternate; }
+.island.playing .c-bar:nth-child(2) { animation: c-wave-2 0.55s ease-in-out infinite alternate 0.1s; }
+.island.playing .c-bar:nth-child(3) { animation: c-wave-3 0.8s  ease-in-out infinite alternate 0.25s; }
+.island.playing .c-bar:nth-child(4) { animation: c-wave-4 0.65s ease-in-out infinite alternate 0.15s; }
+.island.playing .c-bar:nth-child(5) { animation: c-wave-5 0.7s  ease-in-out infinite alternate 0.3s; }
+
+.island:not(.playing) .c-bar {
+  animation: none !important;
+  transform: scaleY(0.25) !important;
+}
+
+@keyframes c-wave-1 { 0% { transform: scaleY(0.25); } 100% { transform: scaleY(0.85); } }
+@keyframes c-wave-2 { 0% { transform: scaleY(0.95); } 100% { transform: scaleY(0.3); } }
+@keyframes c-wave-3 { 0% { transform: scaleY(0.3); }  100% { transform: scaleY(0.9); } }
+@keyframes c-wave-4 { 0% { transform: scaleY(1.0); }  100% { transform: scaleY(0.25); } }
+@keyframes c-wave-5 { 0% { transform: scaleY(0.25); } 100% { transform: scaleY(0.75); } }
+
+/* ─── 2. EXPANDED PANELS (NUSA / IPHONE STYLE) ──────────────── */
+.island.expanded {
+  border-radius: 28px;
+}
+
+.expanded-state {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.expanded-card-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 14px 12px 14px;
+  box-sizing: border-box;
+}
+
+/* Top Nav Header & Nusa-style Activity Tab Switcher */
+.island-nav-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 6px;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.nav-brand-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.2px;
+}
+
+.brand-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--media-accent, #ff2d55);
+  box-shadow: 0 0 6px var(--media-accent-glow, rgba(255, 45, 85, 0.5));
+}
+
+.nav-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-cycle-hint {
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.nav-cycle-hint:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.menu-switch-toast {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(24, 24, 30, 0.95);
+  border: 0.5px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  padding: 3px 12px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  z-index: 50;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.nav-collapse-btn {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.nav-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  color: #fff;
+  transform: scale(1.08);
+}
+
+/* ─── MUSIC EXPANDED ────────────────────────────────────────── */
+.island.music {
+  width: 420px;
+  height: 154px;
+  border-radius: 28px;
+}
+
+.music-content-wrap {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.music-top-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.album-art {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1e1e24, #121216);
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.expanded-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.album-art-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #ff2d55 0%, #ff375f 50%, #ff9f0a 100%);
+}
+
+.album-art-placeholder svg {
+  width: 22px;
+  height: 22px;
+  color: #fff;
+}
+
+.album-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.music-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.music-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.25;
+}
+
+.music-artist {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.lyrics-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.18s;
+  flex-shrink: 0;
+}
+
+.lyrics-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.lyrics-toggle-btn.active {
+  background: var(--media-accent, #ff2d55);
+  color: #fff;
+  border-color: transparent;
+  box-shadow: 0 0 8px var(--media-accent-glow, rgba(255, 45, 85, 0.5));
+}
+
+.lyrics-toggle-btn svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Sound Wave Large */
+.sound-wave-large {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 16px;
+  padding-right: 2px;
+  flex-shrink: 0;
+}
+
+.w-bar {
+  width: 2.5px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--media-accent, #ff2d55);
+  box-shadow: 0 0 5px var(--media-accent-glow, rgba(255, 45, 85, 0.4));
+  transform-origin: bottom;
+  transform: scaleY(0.2);
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+  will-change: transform;
+}
+
+.island.playing .w-bar:nth-child(1) { animation: w-anim-1 0.7s ease-in-out infinite alternate; }
+.island.playing .w-bar:nth-child(2) { animation: w-anim-2 0.55s ease-in-out infinite alternate 0.1s; }
+.island.playing .w-bar:nth-child(3) { animation: w-anim-3 0.8s ease-in-out infinite alternate 0.25s; }
+.island.playing .w-bar:nth-child(4) { animation: w-anim-4 0.65s ease-in-out infinite alternate 0.15s; }
+.island.playing .w-bar:nth-child(5) { animation: w-anim-5 0.75s ease-in-out infinite alternate 0.3s; }
+
+.island:not(.playing) .w-bar {
+  transform: scaleY(0.18) !important;
+  animation: none !important;
+  opacity: 0.4;
+}
+
+@keyframes w-anim-1 { 0% { transform: scaleY(0.3); } 100% { transform: scaleY(0.9); } }
+@keyframes w-anim-2 { 0% { transform: scaleY(1.0); } 100% { transform: scaleY(0.35); } }
+@keyframes w-anim-3 { 0% { transform: scaleY(0.25); } 100% { transform: scaleY(0.8); } }
+@keyframes w-anim-4 { 0% { transform: scaleY(0.9); } 100% { transform: scaleY(0.3); } }
+@keyframes w-anim-5 { 0% { transform: scaleY(0.45); } 100% { transform: scaleY(1.0); } }
+
+/* Synchronized Lyrics Drawer */
+.lyrics-drawer {
+  width: 100%;
+  height: 64px;
+  overflow-y: auto;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 10px;
+  margin: 4px 0;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.lyrics-drawer::-webkit-scrollbar { width: 3px; }
+.lyrics-drawer::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.25); border-radius: 99px; }
+
+.lyrics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lyrics-line {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+  padding: 1px 0;
+}
+
+.lyrics-line:hover {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.lyrics-line.active {
+  color: #fff;
+  font-weight: 700;
+  font-size: 12px;
+  text-shadow: 0 0 8px var(--media-accent-glow, rgba(255, 255, 255, 0.4));
+}
+
+.lyrics-loading {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  padding: 16px 0;
+}
+
+/* Scrubber Row */
+.music-scrubber-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin: 4px 0;
+}
+
+.scrub-time {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.45);
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+  white-space: nowrap;
+}
+
+.scrub-time:last-child {
+  text-align: right;
+}
+
+.scrub-track {
+  flex: 1;
+  height: 4.5px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+}
+
+.scrub-fill {
+  height: 100%;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  position: relative;
+  transition: width 0.15s linear;
+}
+
+.scrub-knob {
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 9px;
+  height: 9px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  transition: transform 0.15s ease;
+}
+
+.scrub-track:hover .scrub-knob {
+  transform: translateY(-50%) scale(1.3);
+}
+
+/* Music Controls Row */
+.music-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 2px;
+}
+
+.ctrl-secondary-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  transition: color 0.18s, transform 0.15s;
+}
+
+.ctrl-secondary-icon:hover {
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.ctrl-secondary-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.music-main-btns {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.ctrl-btn:hover { opacity: 0.85; transform: scale(1.08); }
+.ctrl-btn:active { transform: scale(0.92); }
+
+.seek-btn { width: 26px; height: 26px; opacity: 0.85; }
+.seek-btn svg { width: 19px; height: 19px; }
+
+.skip-btn { width: 26px; height: 26px; }
+.skip-btn svg { width: 17px; height: 17px; opacity: 0.9; }
+
+.play-pause-btn {
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 50%;
+  transition: background 0.2s, transform 0.15s;
+}
+
+.play-pause-btn:hover { background: rgba(255, 255, 255, 0.25); }
+.play-pause-btn svg { width: 18px; height: 18px; }
+.play-pause-btn .pause-icon { display: none; }
+.island.playing .play-pause-btn .play-icon { display: none; }
+.island.playing .play-pause-btn .pause-icon { display: block; }
+
+/* ─── 3. REBUILT TIMER / POMODORO / STOPWATCH ───────────────── */
+.island.timer {
+  width: 420px;
+  height: 154px;
+  border-radius: 28px;
+}
+
+.timer-card-content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.timer-mode-selector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.tm-chip {
+  padding: 3px 12px;
+  border-radius: 999px;
+  border: 0.5px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 10.5px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.tm-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.tm-chip.active {
+  background: rgba(255, 159, 10, 0.25);
+  color: #ff9f0a;
+  border-color: rgba(255, 159, 10, 0.5);
+  font-weight: 600;
+  box-shadow: 0 0 8px rgba(255, 159, 10, 0.3);
+}
+
+.timer-body-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  flex: 1;
+  gap: 14px;
+  padding: 2px 8px;
+}
+
+/* Centered Proportional Circular SVG Ring */
+.timer-ring-container {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-svg-ring {
+  width: 84px;
+  height: 84px;
+  transform: rotate(-90deg);
+}
+
+.timer-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 5;
+}
+
+.timer-ring-progress {
+  fill: none;
+  stroke: #ff9f0a;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 226.2;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.6s ease;
+  filter: drop-shadow(0 0 6px rgba(255, 159, 10, 0.6));
+}
+
+.timer-ring-text-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  text-align: center;
+}
+
+.timer-digits {
+  font-size: 19px;
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+.timer-badge {
+  font-size: 8px;
+  font-weight: 700;
+  color: rgba(255, 159, 10, 0.9);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}
+
+/* Controls Column */
+.timer-controls-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  max-width: 240px;
+}
+
+.timer-btn-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.timer-act-btn {
+  padding: 6px 16px;
+  border-radius: 999px;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.timer-act-btn.primary {
+  background: #ff9f0a;
+  color: #000;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(255, 159, 10, 0.4);
+}
+
+.timer-act-btn.primary:hover {
+  background: #ffb340;
+  transform: scale(1.04);
+}
+
+.timer-act-btn.secondary {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.timer-act-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.04);
+}
+
+.timer-presets-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.preset-btn {
+  background: rgba(255, 255, 255, 0.07);
+  border: 0.5px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 10px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.preset-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+/* Stopwatch Laps Scroll Area */
+.stopwatch-laps-container {
+  width: 100%;
+  height: 40px;
+  overflow-y: auto;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 4px 8px;
+  border: 0.5px solid rgba(255, 255, 255, 0.08);
+}
+
+.stopwatch-laps-container::-webkit-scrollbar { width: 3px; }
+.stopwatch-laps-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 99px; }
+
+.stopwatch-laps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.laps-empty {
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  padding: 8px 0;
+}
+
+.stopwatch-lap-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+  font-variant-numeric: tabular-nums;
+  padding: 1px 0;
+  border-bottom: 0.5px solid rgba(255, 255, 255, 0.06);
+}
+
+.lap-num { color: #ff9f0a; font-weight: 600; }
+.lap-time { font-weight: 500; }
+
+/* ─── 4. WATER REMINDER ──────────────────────────────────────── */
+.island.water {
+  width: 420px;
+  height: 154px;
+  border-radius: 28px;
+}
+
+.water-card-content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.water-glasses-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.water-glass {
+  font-size: 18px;
+  opacity: 0.25;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(1);
+}
+
+.water-glass.filled {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px rgba(10, 132, 255, 0.8)) grayscale(0);
+  transform: scale(1.15);
+}
+
+.water-info-row {
+  text-align: center;
+}
+
+.water-status-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.water-progress-text {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 1px;
+}
+
+.water-actions-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.water-drink-btn {
+  background: #0a84ff;
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(10, 132, 255, 0.4);
+  transition: all 0.18s;
+}
+
+.water-drink-btn:hover {
+  background: #2a95ff;
+  transform: scale(1.04);
+}
+
+.water-reset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.water-reset-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+
+/* ─── 5. FILE SHELF ─────────────────────────────────────────── */
+.island.shelf {
+  width: 420px;
+  height: 154px;
+  border-radius: 28px;
+}
+
+.shelf-card-content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.shelf-dropzone-banner {
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  padding: 6px;
+  text-align: center;
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.shelf-files-scroller {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 48px;
+  overflow-y: auto;
+  padding: 2px 0;
+}
+
+.shelf-files-scroller::-webkit-scrollbar { width: 3px; }
+.shelf-files-scroller::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 99px; }
+
+.shelf-empty {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.shelf-file-card {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.14);
+  border-radius: 6px;
+  padding: 3px 8px;
+  font-size: 10px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.shelf-file-card:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.shelf-card-name {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.shelf-card-del {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0 2px;
+}
+
+.shelf-card-del:hover {
+  color: #ff453a;
+}
+
+.shelf-bottom-bar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.shelf-clear-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 10px;
+  cursor: pointer;
+  padding: 2px 6px;
+}
+
+.shelf-clear-btn:hover {
+  color: #ff453a;
+}
+
+/* ─── 6. TO-DO TASK LIST ────────────────────────────────────── */
+.island.todo {
+  width: 420px;
+  height: 154px;
+  border-radius: 28px;
+}
+
+.todo-card-content {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.todo-input-row {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+}
+
+.todo-input {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 5px 10px;
+  color: #fff;
+  font-size: 11px;
+  outline: none;
+  pointer-events: auto !important;
+  user-select: text !important;
+  -webkit-user-select: text !important;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.todo-input:focus {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #30d158;
+  box-shadow: 0 0 8px rgba(48, 209, 88, 0.4);
+}
+
+.todo-add-btn {
+  background: #30d158;
+  border: none;
+  color: #000;
+  font-weight: 700;
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 10.5px;
+  cursor: pointer;
+}
+
+.todo-list {
+  max-height: 48px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin: 2px 0;
+}
+
+.todo-list::-webkit-scrollbar { width: 3px; }
+.todo-list::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 99px; }
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.todo-item.done span {
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+.todo-left-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+}
+
+.todo-left-wrap span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.todo-checkbox {
+  width: 11px;
+  height: 11px;
+  accent-color: #30d158;
+  cursor: pointer;
+}
+
+.todo-del {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.35);
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 3px;
+}
+
+.todo-del:hover {
+  color: #ff453a;
+}
+
+.todo-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.todo-clear-completed-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.45);
+  cursor: pointer;
+  font-size: 9.5px;
+}
+
+.todo-clear-completed-btn:hover {
+  color: #ff453a;
+}
+
+/* ─── 6. EXPANDED: FACES & CLOCK STUDIO ────────────────────── */
+.island.faces {
+  width: 380px;
+  height: 168px;
+  border-radius: 24px;
+}
+
+.faces-content-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 4px 2px 0 2px;
+  width: 100%;
+}
+
+.style-section-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: rgba(255, 255, 255, 0.45);
+  margin-bottom: 2px;
+}
+
+.face-style-grid {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  padding-bottom: 3px;
+  scrollbar-width: none;
+}
+
+.face-style-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.face-style-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 7px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  min-width: 44px;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.face-style-chip:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-1px);
+}
+
+.face-style-chip .chip-avatar {
+  font-size: 15px;
+  line-height: 1;
+}
+
+.face-style-chip .chip-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.face-style-chip.selected {
+  background: rgba(168, 85, 247, 0.25);
+  border-color: #c084fc;
+  box-shadow: 0 0 10px rgba(168, 85, 247, 0.45);
+}
+
+.face-style-chip.selected .chip-label {
+  color: #f3e8ff;
+  font-weight: 700;
+}
+
+.clock-style-row {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.clock-style-row::-webkit-scrollbar {
+  display: none;
+}
+
+.clock-style-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  padding: 4px 6px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-width: 54px;
+  color: inherit;
+}
+
+.clock-style-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.clock-style-btn .clk-preview {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.clock-style-btn .clk-name {
+  font-size: 8px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.clock-style-btn.selected {
+  background: rgba(56, 189, 248, 0.22);
+  border-color: #38bdf8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+}
+
+.clock-style-btn.selected .clk-name {
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* ─── Compact Face Custom Variations ───────────────────────── */
+.face-eye-wink {
+  font-size: 8px;
+  font-weight: 900;
+  line-height: 1;
+  color: #38bdf8;
+  transform: rotate(-10deg);
+}
+
+.blush-dot {
+  position: absolute;
+  bottom: -2.5px;
+  width: 4px;
+  height: 2px;
+  background: #ff7597;
+  border-radius: 50%;
+  box-shadow: 0 0 3px #ff7597;
+}
+
+.face-glasses {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.glass-lens {
+  width: 7px;
+  height: 5px;
+  background: #1e1e24;
+  border: 1px solid #ffffff;
+  border-radius: 2px;
+}
+
+.glass-bridge {
+  width: 2px;
+  height: 1px;
+  background: #ffffff;
+}
+
+.star-eye {
+  font-size: 8px;
+  line-height: 1;
+  color: #ffd60a;
+  text-shadow: 0 0 4px #ffd60a;
+  animation: star-spin 3s ease-in-out infinite alternate;
+}
+
+.sleep-eye {
+  font-size: 7px;
+  line-height: 1;
+  color: #93c5fd;
+  font-weight: 900;
+}
+
+.heart-eye {
+  font-size: 7px;
+  line-height: 1;
+  color: #ff2d55;
+  text-shadow: 0 0 3px #ff2d55;
+  animation: heart-beat 1.2s ease-in-out infinite;
+}
+
+.face-tongue-wrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.mini-tongue {
+  position: absolute;
+  bottom: -3px;
+  left: 55%;
+  width: 3.5px;
+  height: 3.5px;
+  background: #ff375f;
+  border-radius: 0 0 999px 999px;
+  box-shadow: 0 1px 2px rgba(255, 55, 95, 0.4);
+}
+
+@keyframes star-spin {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1.15) rotate(10deg); }
+}
+
+@keyframes heart-beat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+
+/* ─── 7. PEEK BANNERS: CHARGING ANIMATION (SLIM ORIGINOS) ─── */
+.island.charging {
+  width: 226px;
+  height: 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.65), 0 0 18px rgba(50, 215, 75, 0.4), inset 0 0 0 1px rgba(50, 215, 75, 0.35);
+}
+
+.charging-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.charging-bolt-halo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(50, 215, 75, 0.35) 0%, rgba(50, 215, 75, 0.12) 75%);
+  border: 1px solid rgba(50, 215, 75, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  box-shadow: 0 0 10px rgba(50, 215, 75, 0.6);
+  animation: halo-pulse 1.8s ease-in-out infinite alternate;
+}
+
+.charging-ripple-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(50, 215, 75, 0.35);
+  animation: ripple-pulse 2s cubic-bezier(0.2, 0.8, 0.4, 1) infinite;
+  pointer-events: none;
+}
+
+@keyframes ripple-pulse {
+  0% { transform: scale(0.9); opacity: 0.8; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+.charging-bolt-icon {
+  font-size: 13px;
+  line-height: 1;
+  color: #32d74b;
+  text-shadow: 0 0 8px rgba(50, 215, 75, 0.95);
+  animation: bolt-bounce 1.6s ease-in-out infinite alternate;
+  display: inline-block;
+}
+
+.charging-meta-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+  min-width: 0;
+}
+
+.charging-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  line-height: 1;
+}
+
+.charging-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.charging-pct-badge {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #32d74b;
+  letter-spacing: -0.2px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 6px rgba(50, 215, 75, 0.5);
+  white-space: nowrap;
+}
+
+.charging-progress-track {
+  width: 100%;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  overflow: visible;
+  position: relative;
+}
+
+.charging-progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #30d158 0%, #34c759 35%, #a8f8bc 65%, #30d158 100%);
+  background-size: 200% 100%;
+  box-shadow: 0 0 8px rgba(50, 215, 75, 0.8);
+  animation: charging-shimmer 1.4s linear infinite;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+.charging-spark-head {
+  position: absolute;
+  right: -1px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 0 6px #32d74b;
+}
+
+@keyframes halo-pulse {
+  0% { transform: scale(0.94); box-shadow: 0 0 8px rgba(50, 215, 75, 0.5); }
+  100% { transform: scale(1.06); box-shadow: 0 0 14px rgba(50, 215, 75, 0.85); }
+}
+
+@keyframes bolt-bounce {
+  0% { transform: scale(0.92); }
+  100% { transform: scale(1.12); }
+}
+
+@keyframes charging-shimmer {
+  0% { background-position: 100% 0%; }
+  100% { background-position: -100% 0%; }
+}
+
+/* Power Disconnected Peek Banner */
+.island.charging.disconnected {
+  box-shadow: 0 12px 30px -4px rgba(0, 0, 0, 0.65), 0 0 18px rgba(255, 159, 10, 0.4), inset 0 0 0 1px rgba(255, 159, 10, 0.35);
+}
+
+.charging-bolt-halo.disconnected {
+  background: radial-gradient(circle, rgba(255, 159, 10, 0.35) 0%, rgba(255, 159, 10, 0.1) 75%);
+  border-color: rgba(255, 159, 10, 0.8);
+  box-shadow: 0 0 10px rgba(255, 159, 10, 0.6), inset 0 0 6px rgba(255, 159, 10, 0.35);
+}
+
+.island.charging.disconnected .charging-pct-badge {
+  color: #ff9f0a;
+  text-shadow: 0 0 6px rgba(255, 159, 10, 0.5);
+}
+
+.island.charging.disconnected .charging-progress-fill {
+  background: linear-gradient(90deg, #ff9f0a 0%, #ffd60a 40%, #fff176 70%, #ff9f0a 100%);
+  box-shadow: 0 0 8px rgba(255, 159, 10, 0.7);
+}
+
+.island.charging.disconnected .charging-spark-head {
+  background: #ffffff;
+  box-shadow: 0 0 6px #ff9f0a;
+}
+
+/* ─── 7B. PEEK BANNERS: HEADPHONE / AIRBUDS (SLIM ORIGINOS) ─── */
+.island.headphone {
+  width: 236px;
+  height: 32px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.6), 0 0 16px rgba(10, 132, 255, 0.4), inset 0 0 0 1px rgba(10, 132, 255, 0.25);
+}
+
+.headphone-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.headphone-halo {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10, 132, 255, 0.3) 0%, rgba(10, 132, 255, 0.1) 75%);
+  border: 1px solid rgba(10, 132, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(10, 132, 255, 0.45);
+}
+
+.headphone-icon-symbol {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.headphone-meta-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-width: 0;
+  gap: 6px;
+}
+
+.headphone-title {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: -0.1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.headphone-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #32d74b;
+  box-shadow: 0 0 6px #32d74b;
+  flex-shrink: 0;
+}
+
+.headphone-status-dot.disconnected {
+  background: #ff453a;
+  box-shadow: 0 0 6px #ff453a;
+}
+
+.headphone-sub-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+}
+
+.headphone-body {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.headphone-badge {
+  font-size: 9px;
+  font-weight: 600;
+  color: #0a84ff;
+  background: rgba(10, 132, 255, 0.15);
+  padding: 0 5px;
+  border-radius: 999px;
+  line-height: 1.4;
+}
+
+.island.volume,
+.island.brightness {
+  width: 226px;
+  height: 32px;
+  border-radius: 16px;
+}
+
+.island.keyboard {
+  width: 226px;
+  height: 32px;
+  border-radius: 16px;
+}
+
+.island.battery {
+  width: 236px;
+  height: 32px;
+  border-radius: 16px;
+}
+
+.island.notification {
+  width: 246px;
+  height: 34px;
+  border-radius: 17px;
+}
+
+.peek-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.peek-icon {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.85);
+  flex-shrink: 0;
+}
+
+.peek-icon svg {
+  width: 15px;
+  height: 15px;
+}
+
+.brightness-icon svg {
+  width: 16px;
+  height: 16px;
+  color: #ff9f0a;
+}
+
+.peek-bar-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.peek-bar {
+  flex: 1;
+  height: 3.5px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.peek-fill {
+  height: 100%;
+  width: 50%;
+  background: #ffffff;
+  border-radius: 999px;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.brightness-fill {
+  background: linear-gradient(90deg, #ff9f0a, #fbbf24);
+}
+
+.peek-pct {
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  min-width: 28px;
+  text-align: right;
+}
+
+/* Notification & Hardware Content */
+.notif-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.notif-icon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.notif-text {
+  min-width: 0;
+  flex: 1;
+}
+
+.notif-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notif-body {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* Battery Content */
+.battery-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 16px;
+}
+
+.battery-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.battery-icon-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.battery-body {
+  width: 32px;
+  height: 16px;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.battery-fill {
+  height: 100%;
+  background: #34c759;
+  transition: width 0.6s ease, background 0.6s ease;
+  border-radius: 2px;
+}
+
+.battery-tip {
+  width: 2.5px;
+  height: 7px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 0 2px 2px 0;
+}
+
+.battery-percent {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}
+
+.battery-status {
+  font-size: 10.5px;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.battery-bar-wrap { width: 100%; }
+
+.battery-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.battery-bar-fill {
+  height: 100%;
+  background: #34c759;
+  border-radius: 999px;
+  transition: width 0.8s ease, background 0.6s ease;
+}
+
+.island.charging .battery-bar-fill {
+  background: linear-gradient(90deg, #34c759, #30d158, #34c759);
+  background-size: 200% 100%;
+  animation: charging-anim 1.5s linear infinite;
+}
+
+@keyframes charging-anim {
+  0% { background-position: 0% 0%; }
+  100% { background-position: -200% 0%; }
+}
+
+.island.low-battery .battery-fill,
+.island.low-battery .battery-bar-fill {
+  background: #ff3b30;
+}
+
+/* ─── DOCK MODES ────────────────────────────────────────────── */
+.island.dock-stealth.compact:not(.hovered):not(.playing) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.4), inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.island.dock-autohide.compact:not(.hovered):not(.playing) {
+  transform: translate3d(-50%, -28px, 0);
+  opacity: 0.45;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
+}
+
+.island.dock-autohide.compact:hover,
+.island.dock-autohide.hovered {
+  transform: translate3d(-50%, 0, 0) !important;
+  opacity: 1 !important;
+}
+
+.island.dock-corner.compact:not(.hovered):not(.playing) {
+  left: calc(100% - 75px);
+  transform: translate3d(-50%, 0, 0);
+}

@@ -1,0 +1,77 @@
+{
+  "name": "codewithsiril-dynamic-island",
+  "productName": "CodeWithSiril Dynamic Island",
+  "version": "1.0.0",
+  "description": "CodeWithSiril Dynamic Island for Windows — Low-RAM optimized iPhone-style live activities",
+  "author": "Santhana Siril <santhanasiril0202@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/siril0202/Dynamic-island.git"
+  },
+  "keywords": [
+    "dynamic-island",
+    "codewithsiril",
+    "windows11",
+    "windows10",
+    "electron",
+    "glassmorphism",
+    "widgets",
+    "desktop-customization",
+    "media-player",
+    "system-monitor",
+    "gsap"
+  ],
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "perf:baseline": "powershell -ExecutionPolicy Bypass -File scripts/measure-perf.ps1 -DurationSec 30 -IntervalSec 5 -Label 'Baseline'",
+    "perf:measure": "powershell -ExecutionPolicy Bypass -File scripts/measure-perf.ps1 -DurationSec 30 -IntervalSec 5 -Label 'Optimized'",
+    "autostart:enable": "node scripts/autostart.js enable",
+    "autostart:disable": "node scripts/autostart.js disable",
+    "package": "electron-builder --win --dir",
+    "dist": "electron-builder --win nsis",
+    "dist:all": "electron-builder --win nsis portable"
+  },
+  "build": {
+    "appId": "com.codewithsiril.dynamicisland",
+    "productName": "CodeWithSiril Dynamic Island",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "assets/logo.png",
+      "artifactName": "${productName} Setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CodeWithSiril Dynamic Island",
+      "runAfterFinish": true
+    },
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "services/**/*",
+      "scripts/**/*",
+      "assets/**/*"
+    ]
+  },
+  "dependencies": {
+    "gsap": "^3.15.0",
+    "systeminformation": "^5.22.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3",
+    "electron-reload": "^2.0.0-alpha.1"
+  },
+  "author": "CodeWithSiril",
+  "license": "MIT"
+}

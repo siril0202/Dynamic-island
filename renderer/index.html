@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeWithSiril Dynamic Island</title>
+  <link rel="stylesheet" href="island.css" />
+</head>
+<body>
+  <div id="island" class="island compact">
+
+    <!-- ─── FLOATING MENU SWITCH TOAST (RIGHT-CLICK) ─── -->
+    <div class="menu-switch-toast" id="menu-switch-toast" style="display: none;">
+      <span class="toast-icon" id="toast-icon">🎵</span>
+      <span class="toast-label" id="toast-label">Now Playing</span>
+    </div>
+
+    <!-- ─── 1. COMPACT STATE (AUTHENTIC PHONE-SIZED CAPSULE) ─── -->
+    <div class="state compact-state" id="compact-state">
+      <div class="compact-left" id="compact-left">
+        <!-- Cute animated face (blinking eyes + sweet smile) on the LEFT -->
+        <div class="compact-face" id="compact-face" title="CodeWithSiril Dynamic Island">
+          <div class="face-eyes">
+            <span class="face-eye eye-left"><span class="pupil"></span></span>
+            <span class="face-eye eye-right"><span class="pupil"></span></span>
+          </div>
+          <svg class="face-smile-svg" id="face-smile" viewBox="0 0 14 6" width="14" height="6" aria-hidden="true">
+            <path d="M 2 1.5 Q 7 5.5 12 1.5" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          </svg>
+        </div>
+
+        <!-- Music album art thumbnail when music plays -->
+        <div class="compact-music-art" id="compact-music-art" style="display: none;">
+          <img id="compact-thumb-img" class="compact-thumb-img" src="" alt="" style="display: none;" />
+          <svg id="compact-music-default-icon" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+          </svg>
+        </div>
+
+        <!-- Timer icon when timer is active -->
+        <div class="compact-timer-icon" id="compact-timer-icon" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="compact-right" id="compact-right">
+        <!-- iPhone dancing equalizer wave bars -->
+        <div class="compact-wave" id="compact-music-wave" style="display: none;">
+          <span class="c-bar"></span>
+          <span class="c-bar"></span>
+          <span class="c-bar"></span>
+          <span class="c-bar"></span>
+          <span class="c-bar"></span>
+        </div>
+        <!-- Live digital clock on the RIGHT -->
+        <span class="compact-time" id="compact-time">--:--</span>
+      </div>
+    </div>
+
+    <!-- ─── 2. EXPANDED: NOW PLAYING (MUSIC) ─── -->
+    <div class="state expanded-state music-expanded" id="music-expanded">
+      <div class="expanded-card-wrap">
+        <!-- Sleek Minimal Header (No permanent menu bar) -->
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot"></span>
+            <span class="nav-title-text" id="music-header-title">Now Playing</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint" title="Right-click to switch feature">Right-click ⇄</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="music-content-wrap">
+          <div class="music-top-row">
+            <div class="album-art" id="album-art">
+              <img id="expanded-thumb-img" class="expanded-thumb-img" src="" alt="" style="display: none;" />
+              <div class="album-art-placeholder" id="album-art-placeholder">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+                </svg>
+              </div>
+              <div class="album-shine"></div>
+            </div>
+            <div class="music-info">
+              <div class="music-title" id="music-title">Not Playing</div>
+              <div class="music-artist" id="music-artist">Media</div>
+            </div>
+            <button class="lyrics-toggle-btn" id="lyrics-toggle-btn" onclick="toggleLyrics(event)" title="Toggle Synchronized Lyrics">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm-7 14H7v-2h5v2zm5-4H7v-2h10v2zm0-4H7V6h10v2z"/>
+              </svg>
+              <span>Lyrics</span>
+            </button>
+            <div class="sound-wave-large" id="sound-wave-large">
+              <span class="w-bar"></span>
+              <span class="w-bar"></span>
+              <span class="w-bar"></span>
+              <span class="w-bar"></span>
+              <span class="w-bar"></span>
+            </div>
+          </div>
+
+          <!-- Synchronized Lyrics Drawer -->
+          <div class="lyrics-drawer" id="lyrics-drawer" style="display: none;">
+            <div class="lyrics-list" id="lyrics-list">
+              <div class="lyrics-loading">Loading synchronized lyrics…</div>
+            </div>
+          </div>
+
+          <!-- Interactive Scrubber Row -->
+          <div class="music-scrubber-row">
+            <span class="scrub-time" id="music-time-current">0:00</span>
+            <div class="scrub-track" id="scrub-track" onclick="seekScrubber(event)">
+              <div class="scrub-fill" id="progress-fill">
+                <div class="scrub-knob" id="scrub-knob"></div>
+              </div>
+            </div>
+            <span class="scrub-time" id="music-time-total">-0:00</span>
+          </div>
+
+          <!-- Playback Controls Row -->
+          <div class="music-controls-row">
+            <div class="ctrl-secondary-icon airplay-icon" onclick="openSoundSettings(event)" title="Sound Output / Mixer Settings">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 22h12l-6-6zM21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4v-2H3V5h18v12h-4v2h4c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"/>
+              </svg>
+            </div>
+
+            <div class="music-main-btns">
+              <button class="ctrl-btn seek-btn" id="rewind-btn" onclick="mediaControl('rewind')" title="Rewind 10s">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4.5 10A8 8 0 1 1 12 20a8 8 0 0 1-5.66-2.34" />
+                  <polyline points="4.5 5 4.5 10 9.5 10" />
+                  <text x="12" y="14.2" font-size="6.5" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle" font-family="'Inter', sans-serif">10</text>
+                </svg>
+              </button>
+              <button class="ctrl-btn skip-btn" id="prev-btn" onclick="mediaControl('prev')" title="Previous Track">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+              </button>
+              <button class="ctrl-btn play-pause-btn" id="play-pause-btn" onclick="mediaControl('play')" title="Play / Pause">
+                <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.14v14l11-7-11-7z"/></svg>
+                <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+              </button>
+              <button class="ctrl-btn skip-btn" id="next-btn" onclick="mediaControl('next')" title="Next Track">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6h2v12h-2z"/></svg>
+              </button>
+              <button class="ctrl-btn seek-btn" id="forward-btn" onclick="mediaControl('forward')" title="Skip 10s Forward">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19.5 10A8 8 0 1 0 12 20a8 8 0 0 0 5.66-2.34" />
+                  <polyline points="19.5 5 19.5 10 14.5 10" />
+                  <text x="12" y="14.2" font-size="6.5" font-weight="700" fill="currentColor" stroke="none" text-anchor="middle" font-family="'Inter', sans-serif">10</text>
+                </svg>
+              </button>
+            </div>
+
+            <div class="ctrl-secondary-icon speaker-icon" id="speaker-icon" onclick="toggleVolume(event)" oncontextmenu="openSoundSettings(event)" title="Click: Mute/Unmute | Right-Click: Sound Settings">
+              <svg class="vol-icon-on" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+              </svg>
+              <svg class="vol-icon-muted" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 3. EXPANDED: REBUILT CENTERED TIMER & POMODORO ─── -->
+    <div class="state expanded-state timer-expanded" id="timer-expanded">
+      <div class="expanded-card-wrap">
+        <!-- Header -->
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot" style="background: #ff9f0a;"></span>
+            <span class="nav-title-text" id="timer-header-title">Focus Timer</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint" title="Right-click to switch feature">Right-click ⇄</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="timer-card-content">
+          <!-- Mode Selector Chips -->
+          <div class="timer-mode-selector">
+            <button class="tm-chip active" id="tm-timer" onclick="setTimerMode('timer')">Timer (5m)</button>
+            <button class="tm-chip" id="tm-pomo" onclick="setTimerMode('pomo')">Pomodoro (25m)</button>
+            <button class="tm-chip" id="tm-sw" onclick="setTimerMode('stopwatch')">Stopwatch</button>
+          </div>
+
+          <!-- Main Centered Layout Body -->
+          <div class="timer-body-grid">
+            <!-- Proportional Centered Circular Progress Ring -->
+            <div class="timer-ring-container">
+              <svg class="timer-svg-ring" viewBox="0 0 84 84">
+                <circle class="timer-ring-track" cx="42" cy="42" r="36"/>
+                <circle class="timer-ring-progress" id="timer-ring-progress" cx="42" cy="42" r="36"/>
+              </svg>
+              <div class="timer-ring-text-wrap">
+                <div class="timer-digits" id="timer-display">05:00</div>
+                <div class="timer-badge" id="timer-label">FOCUS</div>
+              </div>
+            </div>
+
+            <!-- Balanced Controls Column -->
+            <div class="timer-controls-column">
+              <div class="timer-btn-row">
+                <button class="timer-act-btn primary" id="timer-start-btn" onclick="timerControl('toggle')">Start</button>
+                <button class="timer-act-btn secondary" id="timer-lap-btn" onclick="timerControl('lap')" style="display: none;">Lap</button>
+                <button class="timer-act-btn secondary" id="timer-reset-btn" onclick="timerControl('reset')">Reset</button>
+              </div>
+
+              <!-- Presets for Countdown & Pomodoro -->
+              <div class="timer-presets-row" id="timer-presets-row">
+                <button class="preset-btn" onclick="addTimerTime(60)">+1m</button>
+                <button class="preset-btn" onclick="addTimerTime(300)">+5m</button>
+                <button class="preset-btn" onclick="addTimerTime(600)">+10m</button>
+              </div>
+
+              <!-- Recorded Laps List for Stopwatch -->
+              <div class="stopwatch-laps-container" id="stopwatch-laps-container" style="display: none;">
+                <div class="stopwatch-laps-list" id="stopwatch-laps-list">
+                  <div class="laps-empty">No laps recorded yet</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 4. EXPANDED: WATER TRACKER ─── -->
+    <div class="state expanded-state water-expanded" id="water-expanded">
+      <div class="expanded-card-wrap">
+        <!-- Header -->
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot" style="background: #0a84ff;"></span>
+            <span class="nav-title-text">Daily Hydration</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint" title="Right-click to switch feature">Right-click ⇄</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="water-card-content">
+          <div class="water-glasses-row" id="water-glasses-row">
+            <!-- 8 Glass Indicators -->
+            <span class="water-glass" data-idx="0">💧</span>
+            <span class="water-glass" data-idx="1">💧</span>
+            <span class="water-glass" data-idx="2">💧</span>
+            <span class="water-glass" data-idx="3">💧</span>
+            <span class="water-glass" data-idx="4">💧</span>
+            <span class="water-glass" data-idx="5">💧</span>
+            <span class="water-glass" data-idx="6">💧</span>
+            <span class="water-glass" data-idx="7">💧</span>
+          </div>
+          <div class="water-info-row">
+            <div class="water-status-text" id="water-title">Drink Water</div>
+            <div class="water-progress-text" id="water-progress">0 / 8 glasses (0 ml)</div>
+          </div>
+          <div class="water-actions-row">
+            <button class="water-drink-btn" id="water-add-btn" onclick="addWaterIntake()">+ Drink 1 Glass (250ml)</button>
+            <button class="water-reset-btn" onclick="resetWaterIntake()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 5. EXPANDED: FILE SHELF DROP ZONE ─── -->
+    <div class="state expanded-state shelf-expanded" id="shelf-expanded">
+      <div class="expanded-card-wrap">
+        <!-- Header -->
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot" style="background: #bf5af2;"></span>
+            <span class="nav-title-text">File Shelf</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint" title="Right-click to switch feature">Right-click ⇄</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="shelf-card-content">
+          <div class="shelf-dropzone-banner">
+            <span>📥 Drag & Drop files from Explorer here to stash</span>
+          </div>
+          <div class="shelf-files-scroller" id="shelf-files">
+            <div class="shelf-empty">No stashed files. Drop files anywhere onto the island.</div>
+          </div>
+          <div class="shelf-bottom-bar" id="shelf-bottom-bar" style="display: none;">
+            <button class="shelf-clear-btn" onclick="clearShelfFiles()">Clear All</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 6. EXPANDED: TO-DO TASK LIST ─── -->
+    <div class="state expanded-state todo-expanded" id="todo-expanded">
+      <div class="expanded-card-wrap">
+        <!-- Header -->
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot" style="background: #30d158;"></span>
+            <span class="nav-title-text">Quick Tasks</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint" title="Right-click to switch feature">Right-click ⇄</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="todo-card-content">
+          <div class="todo-input-row">
+            <input type="text" id="todo-input" class="todo-input" placeholder="Add a new quick task…" onkeydown="if(event.key==='Enter')addTodoTask()" />
+            <button class="todo-add-btn" onclick="addTodoTask()">+ Add</button>
+          </div>
+          <div class="todo-list" id="todo-list"></div>
+          <div class="todo-footer-row">
+            <span class="todo-count" id="todo-count">0 tasks remaining</span>
+            <button class="todo-clear-completed-btn" onclick="clearCompletedTodos()">Clear Completed</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 6. EXPANDED: FACE & CLOCK STUDIO (HOVER IDLE ISLAND) ─── -->
+    <div class="state expanded-state faces-expanded" id="faces-expanded">
+      <div class="expanded-card-wrap">
+        <div class="island-nav-header">
+          <div class="nav-brand-title">
+            <span class="brand-dot" style="background: #a855f7;"></span>
+            <span class="nav-title-text">Faces & Clock Studio</span>
+          </div>
+          <div class="nav-header-right">
+            <span class="nav-cycle-hint">Select a style</span>
+            <button class="nav-collapse-btn" onclick="collapseIsland(event)" title="Collapse Island">✕</button>
+          </div>
+        </div>
+
+        <div class="faces-content-wrap">
+          <div class="style-section-title">Smile & Eyes Styles</div>
+          <div class="face-style-grid" id="face-style-grid">
+            <div class="face-style-chip" data-face="classic" onclick="selectFaceStyle('classic')">
+              <span class="chip-avatar">😊</span>
+              <span class="chip-label">Classic</span>
+            </div>
+            <div class="face-style-chip" data-face="wink" onclick="selectFaceStyle('wink')">
+              <span class="chip-avatar">😉</span>
+              <span class="chip-label">Wink</span>
+            </div>
+            <div class="face-style-chip" data-face="blush" onclick="selectFaceStyle('blush')">
+              <span class="chip-avatar">🥰</span>
+              <span class="chip-label">Blush</span>
+            </div>
+            <div class="face-style-chip" data-face="sunglasses" onclick="selectFaceStyle('sunglasses')">
+              <span class="chip-avatar">😎</span>
+              <span class="chip-label">Cool</span>
+            </div>
+            <div class="face-style-chip" data-face="starry" onclick="selectFaceStyle('starry')">
+              <span class="chip-avatar">🤩</span>
+              <span class="chip-label">Starry</span>
+            </div>
+            <div class="face-style-chip" data-face="sleepy" onclick="selectFaceStyle('sleepy')">
+              <span class="chip-avatar">😴</span>
+              <span class="chip-label">Sleepy</span>
+            </div>
+            <div class="face-style-chip" data-face="heart" onclick="selectFaceStyle('heart')">
+              <span class="chip-avatar">😍</span>
+              <span class="chip-label">Heart</span>
+            </div>
+            <div class="face-style-chip" data-face="playful" onclick="selectFaceStyle('playful')">
+              <span class="chip-avatar">😋</span>
+              <span class="chip-label">Playful</span>
+            </div>
+          </div>
+
+          <div class="style-section-title" style="margin-top: 6px;">Clock Format Styles</div>
+          <div class="clock-style-row" id="clock-style-row">
+            <button class="clock-style-btn" data-clock="24h" onclick="selectClockStyle('24h')">
+              <span class="clk-preview" id="clk-prev-24h">18:45</span>
+              <span class="clk-name">24-Hour</span>
+            </button>
+            <button class="clock-style-btn" data-clock="12h" onclick="selectClockStyle('12h')">
+              <span class="clk-preview" id="clk-prev-12h">06:45 PM</span>
+              <span class="clk-name">12-Hour</span>
+            </button>
+            <button class="clock-style-btn" data-clock="seconds" onclick="selectClockStyle('seconds')">
+              <span class="clk-preview" id="clk-prev-sec">18:45:20</span>
+              <span class="clk-name">Seconds</span>
+            </button>
+            <button class="clock-style-btn" data-clock="minimal" onclick="selectClockStyle('minimal')">
+              <span class="clk-preview" id="clk-prev-min">18•45</span>
+              <span class="clk-name">Minimal</span>
+            </button>
+            <button class="clock-style-btn" data-clock="day" onclick="selectClockStyle('day')">
+              <span class="clk-preview" id="clk-prev-day">Tue 18:45</span>
+              <span class="clk-name">Day+Time</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 7. PEEK BANNER: CHARGING (AUTO-DISMISS WITH ANIMATION) ─── -->
+    <div class="state expanded-state charging-expanded" id="charging-expanded">
+      <div class="charging-banner-content">
+        <div class="charging-bolt-halo" id="charging-bolt-halo">
+          <div class="charging-ripple-ring"></div>
+          <span class="charging-bolt-icon">⚡</span>
+        </div>
+        <div class="charging-meta-wrap">
+          <div class="charging-title-row">
+            <span class="charging-label" id="charging-text">Charging</span>
+            <span class="charging-pct-badge" id="charging-pct">—%</span>
+          </div>
+          <div class="charging-progress-track">
+            <div class="charging-progress-fill" id="charging-bar-fill">
+              <span class="charging-spark-head"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 8. PEEK BANNER: VOLUME INDICATOR (AUTO-DISMISS) ─── -->
+    <div class="state expanded-state volume-expanded" id="volume-expanded">
+      <div class="peek-banner-content">
+        <div class="peek-icon" id="vol-ind-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+        </div>
+        <div class="peek-bar-wrap">
+          <div class="peek-bar">
+            <div class="peek-fill" id="vol-ind-fill"></div>
+          </div>
+          <div class="peek-pct" id="vol-ind-pct">50%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 9. PEEK BANNER: BRIGHTNESS INDICATOR (AUTO-DISMISS) ─── -->
+    <div class="state expanded-state brightness-expanded" id="brightness-expanded">
+      <div class="peek-banner-content">
+        <div class="peek-icon brightness-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zM12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm0-10c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z"/></svg>
+        </div>
+        <div class="peek-bar-wrap">
+          <div class="peek-bar">
+            <div class="peek-fill brightness-fill" id="brightness-ind-fill"></div>
+          </div>
+          <div class="peek-pct" id="brightness-ind-pct">50%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 10. PEEK BANNER: KEYBOARD / CAPS LOCK (AUTO-DISMISS) ─── -->
+    <div class="state expanded-state keyboard-expanded" id="keyboard-expanded">
+      <div class="notif-content">
+        <div class="notif-icon" id="keyboard-icon">⌨️</div>
+        <div class="notif-text">
+          <div class="notif-title" id="keyboard-title">Caps Lock</div>
+          <div class="notif-body" id="keyboard-body">ON</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 11. PEEK BANNER: HEADPHONE / AIRBUDS (AUTO-DISMISS) ─── -->
+    <div class="state expanded-state headphone-expanded" id="headphone-expanded">
+      <div class="headphone-banner-content">
+        <div class="headphone-halo" id="headphone-halo">
+          <span class="headphone-icon-symbol" id="headphone-icon">🎧</span>
+        </div>
+        <div class="headphone-meta-wrap">
+          <div class="headphone-title-row">
+            <span class="headphone-title" id="headphone-title">Airbuds</span>
+            <span class="headphone-status-dot" id="headphone-status-dot"></span>
+          </div>
+          <div class="headphone-sub-row">
+            <span class="headphone-body" id="headphone-body">Connected</span>
+            <span class="headphone-badge" id="headphone-badge">Bluetooth</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 12. PEEK BANNER: BATTERY ALERT / STATUS ─── -->
+    <div class="state expanded-state battery-expanded" id="battery-expanded">
+      <div class="battery-content">
+        <div class="battery-header">
+          <div class="battery-icon-wrap" id="battery-icon-wrap">
+            <div class="battery-body">
+              <div class="battery-fill" id="battery-fill"></div>
+            </div>
+            <div class="battery-tip"></div>
+          </div>
+          <div class="battery-info">
+            <div class="battery-percent" id="battery-percent-text">—%</div>
+            <div class="battery-status" id="battery-status-text">Checking…</div>
+          </div>
+        </div>
+        <div class="battery-bar-wrap">
+          <div class="battery-bar">
+            <div class="battery-bar-fill" id="battery-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── 13. PEEK BANNER: NOTIFICATION (AUTO-DISMISS) ─── -->
+    <div class="state expanded-state notification-expanded notif-expanded" id="notification-expanded">
+      <div class="notif-content">
+        <div class="notif-icon" id="notif-icon">🔔</div>
+        <div class="notif-text">
+          <div class="notif-title" id="notif-title">Notification</div>
+          <div class="notif-body" id="notif-body">You have a new alert</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../node_modules/gsap/dist/gsap.min.js"></script>
+  <script>if (typeof gsap === 'undefined') document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\/script>')</script>
+  <script src="island.js"></script>
+</body>
+</html>
