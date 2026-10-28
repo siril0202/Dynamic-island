@@ -101,6 +101,8 @@ Write-Host "Uploading asset: $($fileInfo.Name) ($([Math]::Round($fileInfo.Length
 # Upload asset using native curl.exe for maximum reliability with large binary files
 Write-Host "Starting upload via curl..."
 $uploadResponse = & curl.exe -s -S -X POST `
+    --http1.1 `
+    --no-buffer `
     -H "Authorization: Bearer $token" `
     -H "Content-Type: application/octet-stream" `
     -H "Accept: application/vnd.github+json" `
