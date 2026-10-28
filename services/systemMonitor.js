@@ -3,7 +3,7 @@ const path = require('path');
 const os = require('os');
 const fs = require('fs');
 
-const PS_MONITOR_PATH = path.join(os.tmpdir(), 'dynamic_island_system_monitor.ps1');
+const PS_MONITOR_PATH = path.join(os.tmpdir(), 'codewithsiril_system_monitor.ps1');
 
 const PS_MONITOR_CONTENT = [
   'Add-Type -TypeDefinition @"',

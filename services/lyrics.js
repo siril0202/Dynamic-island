@@ -52,7 +52,7 @@ function fetchLyrics(track, artist, cb) {
   const url = `https://lrclib.net/api/get?track_name=${cleanTrack}&artist_name=${cleanArtist}`;
 
   const req = https.get(url, {
-    headers: { 'User-Agent': 'CodeWithSiril-DynamicIsland/2.0' },
+    headers: { 'User-Agent': 'CodeWithSiril-DynamicIsland/1.0.0' },
     timeout: 3500,
   }, (res) => {
     let raw = '';

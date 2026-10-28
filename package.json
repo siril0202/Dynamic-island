@@ -3,7 +3,8 @@
   "productName": "CodeWithSiril Dynamic Island",
   "version": "1.0.0",
   "description": "CodeWithSiril Dynamic Island for Windows — Low-RAM optimized iPhone-style live activities",
-  "author": "Santhana Siril <santhanasiril0202@gmail.com>",
+  "author": "CodeWithSiril",
+  "homepage": "https://codewithsiril.site",
   "repository": {
     "type": "git",
     "url": "https://github.com/siril0202/Dynamic-island.git"
@@ -36,12 +37,14 @@
   "build": {
     "appId": "com.codewithsiril.dynamicisland",
     "productName": "CodeWithSiril Dynamic Island",
+    "copyright": "Copyright © 2026 CodeWithSiril",
     "win": {
       "target": [
         "nsis"
       ],
       "icon": "assets/logo.png",
-      "artifactName": "${productName} Setup.${ext}"
+      "artifactName": "${productName} Setup.${ext}",
+      "publisherName": "CodeWithSiril"
     },
     "nsis": {
       "oneClick": false,
@@ -72,6 +75,5 @@
     "electron-builder": "^24.13.3",
     "electron-reload": "^2.0.0-alpha.1"
   },
-  "author": "CodeWithSiril",
   "license": "MIT"
 }

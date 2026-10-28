@@ -147,6 +147,7 @@ function createIslandWindow() {
   winX = Math.round(screenX + (screenW - ISLAND_WINDOW_W) / 2);
 
   islandWindow = new BrowserWindow({
+    title: 'CodeWithSiril Dynamic Island',
     width: ISLAND_WINDOW_W,
     height: ISLAND_WINDOW_H,
     x: winX,
@@ -213,6 +214,7 @@ function createSettingsWindow() {
   const SETTINGS_W = 420;
   const SETTINGS_H = 690;
   settingsWindow = new BrowserWindow({
+    title: 'CodeWithSiril Dynamic Island — Settings',
     width: SETTINGS_W,
     height: SETTINGS_H,
     x: Math.round(sw / 2 - SETTINGS_W / 2),
@@ -283,6 +285,15 @@ function createTray() {
     },
     { type: 'separator' },
     {
+      label: 'Official Website (CodeWithSiril)',
+      click: () => shell.openExternal('https://codewithsiril.site'),
+    },
+    {
+      label: 'Developer Portfolio',
+      click: () => shell.openExternal('https://portfolio.codewithsiril.site'),
+    },
+    { type: 'separator' },
+    {
       label: 'Start on Windows Boot',
       type: 'checkbox',
       checked: autostart.isEnabled(),
@@ -313,6 +324,12 @@ ipcMain.on('island-bounds-update', (event, bounds) => {
 // ─── Settings IPC ─────────────────────────────────────────────────────────
 ipcMain.on('settings-close', () => {
   if (settingsWindow && !settingsWindow.isDestroyed()) settingsWindow.close();
+});
+
+ipcMain.on('open-external-url', (event, url) => {
+  if (typeof url === 'string' && /^https?:\/\//i.test(url)) {
+    shell.openExternal(url);
+  }
 });
 
 ipcMain.on('settings-apply', (event, settings) => {

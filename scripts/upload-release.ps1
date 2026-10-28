@@ -18,10 +18,13 @@ if (-not $token) {
 $repoOwner = "siril0202"
 $repoName = "Dynamic-island"
 $tagName = "v1.0.0"
-$releaseTitle = "CodeWithSiril Dynamic Island"
+$releaseTitle = "CodeWithSiril Dynamic Island v1.0.0"
 $releaseNotes = @"
 ## CodeWithSiril Dynamic Island for Windows
 
+- **Official Brand:** CodeWithSiril
+- **Official Website:** https://codewithsiril.site
+- **Official Portfolio:** https://portfolio.codewithsiril.site
 - **Authentic Vivo OriginOS & iPhone-inspired Dynamic Island for Windows**
 - **Ultra-slim 30px compact pill** with cute animated vector smile, blinking eyes, and live clock
 - **Real Windows media playback sync & hardware media controls**
@@ -33,7 +36,7 @@ $releaseNotes = @"
 $headers = @{
     'Authorization' = "Bearer $token"
     'Accept' = 'application/vnd.github+json'
-    'User-Agent' = 'DynamicIsland-ReleaseManager'
+    'User-Agent' = 'CodeWithSiril-ReleaseManager'
 }
 
 # 1. Check if release already exists
@@ -69,7 +72,7 @@ $releaseId = $release.id
 $uploadUrl = "https://uploads.github.com/repos/$repoOwner/$repoName/releases/$releaseId/assets?name=CodeWithSiril%20Dynamic%20Island%20Setup.exe"
 
 # 3. Check if asset already exists on release
-$assetPath = "d:\dynamic\dist\CodeWithSiril Dynamic Island Setup.exe"
+$assetPath = Join-Path $PSScriptRoot "..\dist\CodeWithSiril Dynamic Island Setup.exe"
 if (-not (Test-Path $assetPath)) {
     Write-Error "Asset file not found at $assetPath"
     exit 1

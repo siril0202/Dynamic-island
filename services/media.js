@@ -4,7 +4,7 @@ const fs = require('fs');
 const os = require('os');
 
 // Write the PS script to a temp file to avoid backtick conflicts in JS strings
-const PS_SCRIPT_PATH = path.join(os.tmpdir(), 'dynamic_island_media.ps1');
+const PS_SCRIPT_PATH = path.join(os.tmpdir(), 'codewithsiril_media.ps1');
 
 const PS_SCRIPT_CONTENT = [
   'Add-Type -AssemblyName System.Runtime.WindowsRuntime',

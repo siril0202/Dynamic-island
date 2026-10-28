@@ -87,6 +87,7 @@ contextBridge.exposeInMainWorld('islandBridge', {
     ipcRenderer.removeAllListeners('cursor-leave');
     ipcRenderer.on('cursor-leave', () => cb());
   },
+  openExternal: (url) => ipcRenderer.send('open-external-url', url),
 });
 
 // Settings window bridge (only available in settings.html context)
@@ -96,4 +97,5 @@ contextBridge.exposeInMainWorld('settingsBridge', {
   getSettings:   ()  => ipcRenderer.invoke('settings-get'),
   saveSettings:  (s) => ipcRenderer.invoke('settings-save', s),
   resetSettings: ()  => ipcRenderer.invoke('settings-reset'),
+  openExternal:  (url) => ipcRenderer.send('open-external-url', url),
 });

@@ -119,7 +119,7 @@ body {
   height: 100%;
 }
 
-/* Cute Blinking Eyes + Smile Face (Vivo OriginOS / Nusa style) */
+/* Cute Blinking Eyes + Smile Face (Vivo OriginOS / CodeWithSiril style) */
 .compact-face {
   display: flex;
   flex-direction: column;
@@ -333,7 +333,7 @@ body {
 @keyframes c-wave-4 { 0% { transform: scaleY(1.0); }  100% { transform: scaleY(0.25); } }
 @keyframes c-wave-5 { 0% { transform: scaleY(0.25); } 100% { transform: scaleY(0.75); } }
 
-/* ─── 2. EXPANDED PANELS (NUSA / IPHONE STYLE) ──────────────── */
+/* ─── 2. EXPANDED PANELS (CODEWITHSIRIL / IPHONE STYLE) ──────── */
 .island.expanded {
   border-radius: 28px;
 }
@@ -355,7 +355,7 @@ body {
   box-sizing: border-box;
 }
 
-/* Top Nav Header & Nusa-style Activity Tab Switcher */
+/* Top Nav Header & Activity Tab Switcher */
 .island-nav-header {
   display: flex;
   align-items: center;

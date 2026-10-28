@@ -1,8 +1,17 @@
 using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-namespace IslandTrimmer {
+[assembly: AssemblyTitle("CodeWithSiril Dynamic Island Memory Trimmer")]
+[assembly: AssemblyDescription("Background working set compaction tool for CodeWithSiril Dynamic Island")]
+[assembly: AssemblyCompany("CodeWithSiril")]
+[assembly: AssemblyProduct("CodeWithSiril Dynamic Island")]
+[assembly: AssemblyCopyright("Copyright © 2026 CodeWithSiril")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
+
+namespace CodeWithSiril.DynamicIsland.Trimmer {
     class Program {
         [DllImport("psapi.dll")]
         public static extern int EmptyWorkingSet(IntPtr hwProc);
@@ -28,7 +37,7 @@ namespace IslandTrimmer {
                     foreach (var p in Process.GetProcesses()) {
                         try {
                             string name = p.ProcessName.ToLower();
-                            if (name.Contains("electron") || name.Contains("dynamic") || name.Contains("powershell")) {
+                            if (name.Contains("electron") || name.Contains("dynamic") || name.Contains("powershell") || name.Contains("codewithsiril")) {
                                 EmptyWorkingSet(p.Handle);
                                 SetProcessWorkingSetSize(p.Handle, -1, -1);
                             }

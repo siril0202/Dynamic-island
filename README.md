@@ -1,7 +1,7 @@
-# 🏝️ Dynamic Island for Windows
+# 🏝️ CodeWithSiril Dynamic Island for Windows
 
 <p align="center">
-  <img src="assets/logo.png" width="160" height="160" alt="Dynamic Island Logo" style="border-radius: 50%;" />
+  <img src="assets/logo.png" width="160" height="160" alt="CodeWithSiril Dynamic Island Logo" style="border-radius: 50%;" />
 </p>
 
 <p align="center">
@@ -9,6 +9,8 @@
 </p>
 
 <p align="center">
+  <a href="https://codewithsiril.site/"><img src="https://img.shields.io/badge/Website-codewithsiril.site-0a84ff?logo=googlechrome&logoColor=white" alt="Official Website" /></a>
+  <a href="https://portfolio.codewithsiril.site/"><img src="https://img.shields.io/badge/Portfolio-CodeWithSiril-88CE02?logo=safari&logoColor=white" alt="Official Portfolio" /></a>
   <img src="https://img.shields.io/badge/Platform-Windows%2010%20%2F%2011-0078D4?logo=windows&logoColor=white" alt="Platform: Windows" />
   <img src="https://img.shields.io/badge/Framework-Electron%2031-47848F?logo=electron&logoColor=white" alt="Framework: Electron" />
   <img src="https://img.shields.io/badge/Animation-GSAP-88CE02?logo=greensock&logoColor=white" alt="Animations: GSAP" />
@@ -17,14 +19,19 @@
 </p>
 
 <p align="center">
-  <code>#dynamic-island</code> • <code>#windows11</code> • <code>#electron</code> • <code>#glassmorphism</code> • <code>#desktop-widget</code> • <code>#media-controls</code> • <code>#system-monitor</code>
+  <code>#codewithsiril</code> • <code>#dynamic-island</code> • <code>#windows11</code> • <code>#windows10</code> • <code>#electron</code> • <code>#glassmorphism</code> • <code>#desktop-widget</code> • <code>#media-controls</code> • <code>#system-monitor</code>
 </p>
 
 ---
 
 ## ✨ Overview
 
-**Dynamic Island for Windows** is an ultra-fluid, non-intrusive floating pill pinned seamlessly to the top of your screen. Built with **Electron**, **GSAP**, and native Windows APIs, it delivers smooth morphing live activities for your media playback, system monitoring, utility shortcuts, and notifications—without getting in your way.
+**CodeWithSiril Dynamic Island for Windows** is an ultra-fluid, non-intrusive floating pill pinned seamlessly to the top of your screen. Built with **Electron**, **GSAP**, and native Windows APIs, it delivers smooth morphing live activities for your media playback, system monitoring, utility shortcuts, and notifications—without getting in your way.
+
+- **Official Brand:** CodeWithSiril
+- **Official Website:** [https://codewithsiril.site](https://codewithsiril.site/)
+- **Official Portfolio:** [https://portfolio.codewithsiril.site](https://portfolio.codewithsiril.site/)
+- **Official Repository:** [https://github.com/siril0202/Dynamic-island](https://github.com/siril0202/Dynamic-island)
 
 ---
 
@@ -60,9 +67,9 @@ Expand the island to instantly access customized macOS/iOS squircle app tiles:
 - **Live Preview Pill**: Real-time visual feedback as you tweak sliders.
 - **Preset Themes**:
   - 🌌 **Void Black**: Pitch-black minimalist styling.
-  - 🪟 **Glass**: Frosted glassmorphism with dynamic background blur.
-  - 🌫️ **Smoke**: Deep grey moody tint.
-  - 🖤 **AMOLED**: True OLED black with maximum contrast.
+  - 🪟 **Liquid Glass**: Frosted glassmorphism with dynamic background blur.
+  - 🌫️ **Cyber Smoke**: Deep grey moody tint.
+  - 🖤 **OLED True**: True OLED black with maximum contrast.
 - **Granular Controls**:
   - Background Opacity & Blur Amount (0px - 60px).
   - Saturation & Brightness multipliers.
@@ -77,7 +84,7 @@ Expand the island to instantly access customized macOS/iOS squircle app tiles:
 ### 🖥️ 6. Seamless Desktop Integration
 - **Click-Through Transparency**: Mouse events pass straight through the transparent canvas when collapsed.
 - **Always on Top**: Kept at the highest OS window level (`screen-saver` layer) without DWM flickering.
-- **System Tray Menu**: Right-click the system tray icon to Show/Hide, open Settings, enable **Run on Windows Boot**, or Quit.
+- **System Tray Menu**: Right-click the system tray icon to Show/Hide, open Settings, visit the official CodeWithSiril website, enable **Run on Windows Boot**, or Quit.
 
 ---
 
@@ -109,14 +116,20 @@ Or run in development mode with developer tools:
 npm run dev
 ```
 
+### 4. Build Windows Installer (.exe)
+```bash
+npm run dist
+```
+The production installer will be built into the `dist/` folder: `CodeWithSiril Dynamic Island Setup.exe`.
+
 ---
 
 ## ⚙️ Start on Windows Boot (Autostart)
 
-To enable Dynamic Island to start automatically when your PC boots up:
+To enable CodeWithSiril Dynamic Island to start automatically when your PC boots up:
 
 **Via UI:**
-- Right-click the **Dynamic Island** pill icon in the Windows Taskbar System Tray.
+- Right-click the **CodeWithSiril Dynamic Island** pill icon in the Windows Taskbar System Tray.
 - Check **"Start on Windows Boot"**.
 
 **Via Command Line:**
@@ -135,24 +148,32 @@ npm run autostart:disable
 ```
 Dynamic-island/
 ├── assets/
-│   ├── logo.png               # App icon & dynamic glowing orb logo
+│   ├── logo.png               # CodeWithSiril Dynamic Island application logo
 │   └── tray-icon.png          # System tray icon (32x32)
 ├── renderer/
 │   ├── index.html             # Island canvas & UI states
 │   ├── island.css             # Glassmorphism design & animations
 │   ├── island.js              # State manager & GSAP animations
-│   └── settings.html          # Appearance Customizer with Live Preview
+│   └── settings.html          # Appearance Customizer & About window
 ├── scripts/
-│   └── autostart.js           # Windows Startup shortcut generator
+│   ├── autostart.js           # Windows Startup shortcut generator
+│   ├── measure-perf.ps1       # Automated memory & performance benchmark
+│   ├── media-ctrl.ps1         # Native Windows media key dispatcher
+│   ├── trimmer.cs             # C# source for working set memory trimmer
+│   ├── trimmer.exe            # Compiled native memory optimization tool
+│   └── upload-release.ps1     # GitHub Releases asset publisher
 ├── services/
 │   ├── battery.js             # Battery & power tracking
+│   ├── lyrics.js              # Synchronized lyrics fetcher (lrclib)
 │   ├── media.js               # Windows Media Session & Now Playing extractor
-│   ├── mediaController.js     # Media key dispatcher (Play/Pause/Skip/Seek)
-│   └── network.js             # Network status monitor
+│   ├── mediaController.js     # Media key coordinator (Play/Pause/Skip/Seek)
+│   ├── network.js             # Network status monitor
+│   └── systemMonitor.js       # Caps lock, volume, headphone & fullscreen monitor
 ├── main.js                    # Electron main process & IPC coordinator
 ├── preload.js                 # Secure context bridge
-├── package.json
-└── README.md
+├── package.json               # Manifest & build configuration
+├── LICENSE                    # MIT License
+└── README.md                  # Project documentation
 ```
 
 ---
@@ -184,6 +205,7 @@ Contributions, feature suggestions, and bug reports are welcome!
 
 | Category | Tags / Hashtags |
 | :--- | :--- |
+| **Brand** | `#codewithsiril` `#siril0202` |
 | **Experience** | `#dynamic-island` `#dynamic-island-windows` `#ios-on-windows` `#live-activities` `#island` |
 | **Platform** | `#windows-11` `#windows-10` `#windows-customization` `#desktop-app` `#desktop-widget` |
 | **Features** | `#media-player` `#spotify-widget` `#now-playing` `#battery-monitor` `#quick-actions` `#stopwatch` |
@@ -192,13 +214,16 @@ Contributions, feature suggestions, and bug reports are welcome!
 
 <br />
 
-> **Hashtags:** `#dynamicisland` `#dynamicislandwindows` `#windows11` `#windows10` `#electron` `#glassmorphism` `#spotify` `#desktopwidgets` `#rainmeter` `#customization` `#productivity` `#opensource`
+> **Hashtags:** `#codewithsiril` `#dynamicisland` `#dynamicislandwindows` `#windows11` `#windows10` `#electron` `#glassmorphism` `#spotify` `#desktopwidgets` `#rainmeter` `#customization` `#productivity` `#opensource`
 
 ---
 
-## 👨‍💻 Author & Creator
+## 👨‍💻 Author & Developer
 
-- **Santhana Siril** ([@siril0202](https://github.com/siril0202))
+- **CodeWithSiril** ([@siril0202](https://github.com/siril0202))
+  - 🌐 **Official Website:** [https://codewithsiril.site](https://codewithsiril.site/)
+  - 💼 **Portfolio:** [https://portfolio.codewithsiril.site](https://portfolio.codewithsiril.site/)
+  - 🐙 **GitHub:** [@siril0202](https://github.com/siril0202)
 
 ---
 
@@ -209,6 +234,5 @@ Distributed under the **MIT License**. See `LICENSE` for more information.
 ---
 
 <p align="center">
-  Crafted with ❤️ by <b>Santhana Siril</b> for Windows enthusiasts.
+  Crafted with ❤️ by <b>CodeWithSiril</b> for Windows enthusiasts.
 </p>
-
